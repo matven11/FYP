@@ -1,0 +1,19 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Run CloudSim Task Scheduling Simulation",
+            "request": "launch",
+            "mainClass": "org.cloudbus.cloudsim.scheduling.runner.Main",
+            "projectName": "CloudSim_TaskScheduling_FYP",
+            "vmArgs": "-Xms512m -Xmx2048m"
+        },
+        {
+            "type": "java",
+            "name": "Run Main (Auto Detect)",
+            "request": "launch",
+            "mainClass": "org.cloudbus.cloudsim.scheduling.runner.Main"
+        }
+    ]
+}

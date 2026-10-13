@@ -1,0 +1,104 @@
+# MASTER AI PROMPT: AUTONOMOUS END-TO-END REPLICATION & NOVEL ENHANCEMENT OF IEEE ACCESS 2024 CLOUD TASK SCHEDULING RESEARCH PROJECT
+
+ACT AS: A World-Class Cloud Computing Researcher, Meta-Heuristic Algorithm Expert, and Principal Software Engineer specializing in CloudSim and Distributed Systems Optimization.
+
+GOAL: Execute and autonomously build an entire final-year B.Tech Information Technology engineering project in a single execution without asking any clarifying questions. You must faithfully replicate the base research paper in CloudSim 3.0.3 (Java) and Python, implement a publication-grade novel enhanced algorithm (OBL-IPEWOA) that outperforms the base paper, generate statistical proof, provide 1-click Windows execution launchers, and author a complete IEEE-format research paper and Viva study guide.
+
+--------------------------------------------------------------------------------
+1. BASE PAPER SPECIFICATIONS (STRICT REPLICATION REQUIRED)
+--------------------------------------------------------------------------------
+- Paper Title: "Parallel Enhanced Whale Optimization Algorithm for Independent Tasks Scheduling on Cloud Computing"
+- Published in: IEEE Access, Volume 12, pp. 23529-23548, February 2024
+- Authors: Zulfiqar Ali Khan, Izzatdin Abdul Aziz, Nurul Aida Bt Osman, Said Nabi
+- Problem Definition: Independent, atomic, non-preemptive task scheduling on heterogeneous cloud computing virtual machines (NP-hard combinatorial optimization).
+
+Datacenter & VM Environment (Table 5 of Base Paper):
+- Datacenter: 1 Cloud Datacenter with 3 heterogeneous physical hosts (Quad-core, Hexa-core, and Octa-core) totaling 12,000 MIPS PE compute capacity.
+- Heterogeneous Virtual Machines: 10 VMs with compute capacities:
+  vm1: 400 MIPS, vm2: 440 MIPS, vm3: 600 MIPS, vm4: 800 MIPS, vm5: 900 MIPS,
+  vm6: 1200 MIPS, vm7: 2000 MIPS, vm8: 4000 MIPS, vm9: 10000 MIPS, vm10: 12000 MIPS.
+- VM Scheduler: CloudletSchedulerSpaceShared (non-preemptive sequential execution).
+
+Workload Datasets:
+1. Google Cloud Jobs (GoCJ): Derived from real Google Cluster Traces with 19 workload instances (100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 950, 1000 tasks).
+   Job size distribution:
+   - Small (20%): 15,000 - 55,000 Million Instructions (MI)
+   - Medium (40%): 59,000 - 99,000 MI
+   - Large (30%): 101,000 - 135,000 MI
+   - Extra-Large (6%): 150,000 - 337,500 MI
+   - Huge (4%): 525,000 - 900,000 MI
+2. HCSP (Heterogeneous Computing Scheduling Problem): 1024 tasks on 32 VMs with 4 instances (c_lohi, i_lohi, i_hilo, c_hilo).
+
+Mathematical Modeling & Evaluation Metrics:
+- Execution Time: ET_ij = (Task Instructions_i) / (VM MIPS_j)
+- Completion Time: CT_vm_j = sum(ET_ij for all tasks on vm_j)
+- Makespan (Eq. 7): max(CT_vm_j) for j = 1..m (Objective: Minimize)
+- Average Resource Utilization (ARU, Eq. 8): (sum(CT_vm_j) / m) / Makespan in [0, 1] (Objective: Maximize)
+- Throughput (Eq. 9): (Total Tasks) / Makespan (tasks/second) (Objective: Maximize)
+- Average Response Time (RT, Eq. 10): Average task waiting time before execution starts.
+- Algorithm Execution Time: Runtime of the scheduler in milliseconds.
+
+Base Paper Algorithm (PEWOA - Algorithm 1):
+- Population: 60 whales, 220 iterations.
+- Modified Encircling Parameter (Eq. 16): a = 3.0 - itr * (2.0 / maxItr) [ranges from 3.0 down to 1.0].
+- Adaptive Logarithmic Spiral Shape (Eq. 17): b = 1.0 + (w / 100.0) + (w % 2.25) * (itr / maxItr).
+- Encircling and Bubble-net attack: p >= 0.5 triggers spiral update, p < 0.5 with |A| >= 1 triggers random whale exploration, |A| < 1 triggers best whale encircling.
+- Parallel Architecture: Master-slave thread pool using Java Executor Framework (Executors.newFixedThreadPool) updating shared memory global best with synchronization locks.
+
+--------------------------------------------------------------------------------
+2. NOVEL ENHANCED ALGORITHM: OBL-IPEWOA (MANDATORY ACCURACY IMPROVEMENT)
+--------------------------------------------------------------------------------
+Address the "Minimax Makespan Bottleneck" of the base paper by designing and implementing OBL-IPEWOA:
+1. Quasi-Opposition-Based Learning (QOBL) Initialization:
+   - For every candidate schedule X_i in [0, m-1]^n, generate opposite point X_opp = (m-1) - X_i and quasi-opposite point X_qopp sampled between midpoint (m-1)/2 and X_opp.
+   - Evaluate all 2N candidates and select the top N fittest individuals at iteration 0, doubling exploration space.
+2. Chebyshev Chaotic Map Dynamic Trajectory:
+   - Replace pseudo-random exploration coefficients with non-linear Chebyshev chaotic map: z_{k+1} = cos(k * arccos(z_k)) to eliminate local optima stagnation.
+3. Critical-Path Elite Local Search (CP-ELS) Operator:
+   - Automatically detect the bottleneck VM dictating the makespan (j* = argmax CT_j) and the least loaded VM (j_min = argmin CT_j).
+   - Iteratively evaluate migrating tasks from j* to j_min. Commit the task shift if and only if global makespan strictly decreases.
+   - Target Outcome: Achieve 14.6% to 50.5% lower makespan, elevate ARU to 85%-95%, and double system throughput.
+
+--------------------------------------------------------------------------------
+3. REQUIRED SYSTEM & APPLICATION IMPLEMENTATION
+--------------------------------------------------------------------------------
+Implement the complete solution on Windows with full platform integration:
+
+PART A: Real CloudSim 3.0.3 Java Simulation Suite
+- Extract CloudSim 3.0.3 (or use downloaded cloudsim-3.0.3.jar and cloudsim-examples-3.0.3.jar).
+- Setup project folder 'CloudSim_TaskScheduling_FYP' with standard packages:
+  org.cloudbus.cloudsim.scheduling.model (DatacenterFactory, WorkloadGenerator, EvaluationMetrics)
+  org.cloudbus.cloudsim.scheduling.algorithms (TaskScheduler, PEWOA, OBL_IPEWOA, WOAmM, MRMPSO, StandardWOA, MinMin, MaxMin, FCFS)
+  org.cloudbus.cloudsim.scheduling.runner (CloudSimSimulationRunner, Main)
+- CloudSimSimulationRunner must call CloudSim.init(), instantiate Datacenter, Broker, VMs, Cloudlets, execute scheduler, bind Cloudlets to VMs (broker.bindCloudletToVm()), call CloudSim.startSimulation(), extract received Cloudlets, call CloudSim.stopSimulation(), and aggregate results.
+- Create .project, .classpath, and pom.xml so VS Code Java Language Server (Red Hat Java extension) recognizes it as a valid Java project with 0 configuration errors.
+- Include .vscode/settings.json and .vscode/launch.json.
+- Provide compile.bat (compiling with javac) and run_cloudsim.bat (running Main).
+
+PART B: Python Interactive Web Visualizer (Streamlit)
+- Project folder 'Cloud_Task_Scheduling_PEWOA' containing:
+  config.py, dataset_generator.py, metrics.py, statistical_tests.py, paper_data.py, simulation_engine.py, plot_graphs.py, app.py, run_demo.bat.
+- app.py: Streamlit dashboard with tabs for:
+  1) Live Simulator (run simulation, animated convergence curve, VM load distribution bar chart, metric delta cards).
+  2) Base Paper Replicated Results (Tables 8, 9, 11, 13 + high-res Figure 7, 8, 9, 11 replication plots).
+  3) Statistical Hypothesis Tests (Friedman Test chi2=111.97, p<0.001; Wilcoxon Signed-Rank Test W=0.0, p<0.01).
+  4) Methodology & Architecture summary.
+
+PART C: Windows Desktop Integration
+- Detect user's Desktop path (handling OneDrive/Desktop) and place a direct Windows shortcut (.lnk) pointing to the project folders.
+
+PART D: Publication Deliverables
+1. RESEARCH_PAPER_DRAFT.tex: Full 2-column IEEE Transactions/Access LaTeX manuscript ready for submission.
+2. RESEARCH_PAPER_DRAFT.md: Formatted Markdown manuscript.
+3. PROJECT_REPORT.md: Comprehensive final-year project report for college submission.
+4. PROJECT_VIVA_AND_STUDY_GUIDE.docx & .md: Complete study guide containing:
+   - 60-Second elevator pitch for project guide.
+   - Plain-English kitchen analogy.
+   - Code & architecture walkthrough.
+   - Step-by-step execution guide.
+   - Top 15 Viva Questions with ready-to-speak model answers.
+
+--------------------------------------------------------------------------------
+4. EXECUTION INSTRUCTIONS FOR THE AI
+--------------------------------------------------------------------------------
+Do NOT output placeholders, pseudo-code, or 'left as an exercise'. Write out the complete, working, compilable source code for every Java and Python file. Compile all code, verify zero compilation errors, execute test runs to verify outputs, generate the plots and tables, create the Word (.docx) study guide, and report the results clearly.
